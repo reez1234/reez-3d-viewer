@@ -3,37 +3,37 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>REEZ | 3D Character</title>
-
-  <script type="module"
-    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
-  </script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>REEZ 3D Character</title>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     html, body {
       margin: 0;
       width: 100%;
       height: 100%;
+      background: #171717;
       overflow: hidden;
-      background: transparent;
     }
-
     model-viewer {
       width: 100%;
       height: 100%;
-      background-color: transparent;
-      --poster-color: transparent;
+      background: #171717;
+    }
+    #status {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      color: white;
+      font: 14px Arial, sans-serif;
+      z-index: 10;
     }
   </style>
 </head>
 <body>
+  <div id="status">Loading REEZ character...</div>
 
   <model-viewer
+    id="character"
     src="./karakter_reez_recover2-compressed.glb"
     alt="REEZ 3D character"
     camera-controls
@@ -41,9 +41,20 @@
     rotation-per-second="20deg"
     shadow-intensity="1"
     exposure="1"
-    interaction-prompt="none"
-    loading="eager">
+    interaction-prompt="none">
   </model-viewer>
 
+  <script>
+    const viewer = document.getElementById('character');
+    const status = document.getElementById('status');
+
+    viewer.addEventListener('load', () => {
+      status.style.display = 'none';
+    });
+
+    viewer.addEventListener('error', () => {
+      status.textContent = 'Model failed to load. Please check the GLB file URL.';
+    });
+  </script>
 </body>
 </html>
